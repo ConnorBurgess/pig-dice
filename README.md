@@ -1,11 +1,11 @@
 # Pig Dice
 #### *Co-Created By: Connor Burgess * 
-#### *Co-Created By: * 
+#### *Co-Created By: Zack Rutledge* 
 
 * * *
 
 ## Description  
-Description
+Project utilizes constructors and prototypes to create a "Pig Dice" game.
 
 * * *
 
@@ -46,3 +46,4 @@ Licensed under [MIT license](https://mit-license.org/)
 
 ## Contact Information
 _Connor Burgess: [Email](connorburgesscodes@gmail.com)_
+_Zack Rutledge: [Email](Thorgrim88@gmail.com)_
