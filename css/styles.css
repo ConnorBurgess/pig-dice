@@ -5,24 +5,44 @@
   border: 4px solid silver;
   width: 6vw;
   background-color: GainsBoro;
+  overflow: auto;
 }
 
 .jumbotron {
   text-align: center;
   font-size: 3vw;
   color: purple;
+  font-family: 'Pacifico', cursive;
 }
 
-#output, #output-player {
-width: 20vw;
-height:auto;
+#output {
+width: 45vw;
+height: 7vw;
 display: inline;
 font-size: 15px;
 font-weight: bolder;
 padding: 4px;
 border: 4px;
-overflow: scroll;
+bottom:1vw;
 white-space: normal;
+position: absolute;
+overflow-anchor: none;
+}
+
+#anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
+
+#output-player {
+  width: 20vw;
+  display: inline;
+  font-size: 25px;
+  font-weight: bolder;
+  font-family: 'Pacifico', cursive;
+  padding: 4px;
+  border: 4px;
+  white-space: normal;
 }
 
 body {

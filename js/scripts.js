@@ -6,31 +6,35 @@ function Player(num) {
   this.numDice = 1;
   this.player = num;
   this.active = 0
-  // this.difficulty = false;
-  // this.win = 0;
-  // this.loss = 0;
+  this.win = 0;
 }
 
 Player.prototype.generateTotal = function () {
   let roll = Math.floor(Math.random() * 6) + 1;
-  this.turnTotal = roll + 1;
+  this.turnTotal = roll ;
   this.runningTotal = this.runningTotal + roll;
   this.rollCounter++;
   if (roll !== 1) {
-    $("#output").append(`<li> Rolled a ${roll} and current score is ${this.runningTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
+    $("#output").append(`<li> Player ${this.player} rolled a ${roll} and current score is ${this.runningTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
+    if(this.runningTotal >= "100") {
+      this.win++
+      this.runningTotal = 0;
+      $("#output").text(`You are the greatest Barbie Pig Dice Champion ever! YOU WIN! Wins: ${this.win}`)
+    }
   }
   else {
-
-    $("#output").append(`<li> Oops! Rolled a ${roll} and score was reset to ${this.turnTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
+    $("#output").append(`<li> Oops! Player ${this.player} rolled a ${roll} and score was reset to ${this.turnTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
     if (this.player === 1) {
-      $("#output-player").text(`It is Player 2's turn.`);
+      $("#output-player").text(`It is Player 2's turn. Wins: ${this.win}`);
+      $("#output-player").append(`<img src="https://www.qedcat.com/misc/pigs1.jpg" width="50px">`)
       playerOne.turnTotal = 0
       this.active = 0;
       this.rollCounter = 0;
       playerTwo.active = 1;
     }
     else if (this.player === 2) {
-      $("#output-player").text(`It is Player 1's turn.`);
+      $("#output-player").text(`It is Player 1's turn. Wins: ${this.win}`);
+      $("#output-player").append(`<img src="https://www.qedcat.com/misc/pigs1.jpg" width="50px">`)
       playerTwo.turnTotal = 0
       this.active === 0;
       this.rollCounter = 0;
@@ -46,22 +50,21 @@ Player.prototype.rollDice = function () {
 }
 
 Player.prototype.hold = function () {
-  $("#output").append(`<li> Turn is over! Rolled a total of ${this.rollCounter} times this turn. Current score is ${this.runningTotal} </li>`)
   this.runningTotal = this.runningTotal + this.turnTotal;
-
+  $("#output").append(`<li> Turn is over! Rolled a total of ${this.rollCounter} times this turn. Current score is ${this.runningTotal} </li>`)
   if (playerOne.active === 1) {
-    roll = 0
-    playerOne.turnTotal = 0
-    this.rollCounter = 0
-    playerOne.active = 0;
+    roll = 0;
+    this.turnTotal = 0;
+    this.rollCounter = 0;
+    this.active = 0;
     playerTwo.active = 1;
     $("#output-player").text(`It is Player 2's turn.`);
   }
   else if (playerTwo.active === 1) {
-    roll = 09
-    playerTwo.turnTotal = 0
-    this.rollCounter = 0
-    playerTwo.active = 0;
+    roll = 0;
+    this.turnTotal = 0;
+    this.rollCounter = 0;
+    this.active = 0;
     playerOne.active = 1;
     $("#output-player").text(`It is Player 1's turn.`);
   }
@@ -134,11 +137,11 @@ $(document).ready(function () {
 function fillerfunction() {
   if (playerOne.active === 1) {
     playerOne.rollDice();
-    $("#output-player").text(`Player ${playerOne.player}'s rolls the dice.`);
+ //   $("#output-player").text(`Player ${playerOne.player}'s rolls the dice.`);
   }
   else if (playerTwo.active === 1) {
     playerTwo.rollDice();
-    $("#output-player").text(`Player ${playerTwo.player}'s rolls the dice.`);
+  //  $("#output-player").text(`Player ${playerTwo.player}'s rolls the dice.`);
   }
 };
 
@@ -152,10 +155,6 @@ function hold() {
     $("#output-player").text(`Player ${playerTwo.player} decides to hold.`);
   }
 };
-
-
-
-
 
 
 
