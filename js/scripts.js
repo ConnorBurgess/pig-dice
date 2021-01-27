@@ -14,22 +14,24 @@ function Player(num) {
 Player.prototype.generateTotal = function () {
   let roll = Math.floor(Math.random() * 6) + 1;
   this.turnTotal = roll + 1;
-  this.runningTotal = this.runningTotal + roll + 1;
+  this.runningTotal = this.runningTotal + roll;
   this.rollCounter++;
   if (roll !== 1) {
-    $("#output").text(`Rolled a ${roll} and current score is ${this.runningTotal}. Rolled a total of ${this.rollCounter} times.`);
+    $("#output").append(`<li> Rolled a ${roll} and current score is ${this.runningTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
   }
   else {
-    this.turnTotal = 0
-    $("#output").text(`Oops! Rolled a ${roll} and score was reset to ${this.turnTotal}. Rolled a total of ${this.rollCounter} times.`);
+
+    $("#output").append(`<li> Oops! Rolled a ${roll} and score was reset to ${this.turnTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
     if (this.player === 1) {
-      $("#output").text(`It is Player 2's turn.`);
+      $("#output-player").text(`It is Player 2's turn.`);
+      playerOne.turnTotal = 0
       this.active = 0;
       this.rollCounter = 0;
       playerTwo.active = 1;
     }
     else if (this.player === 2) {
-      $("#output").text(`It is Player 1's turn.`);
+      $("#output-player").text(`It is Player 1's turn.`);
+      playerTwo.turnTotal = 0
       this.active === 0;
       this.rollCounter = 0;
       playerOne.active = 1;
@@ -44,17 +46,24 @@ Player.prototype.rollDice = function () {
 }
 
 Player.prototype.hold = function () {
-  $("#output").text(`Turn is over! Rolled a total of ${this.rollCounter} times this turn. Current score is ${this.runningTotal}`)
+  $("#output").append(`<li> Turn is over! Rolled a total of ${this.rollCounter} times this turn. Current score is ${this.runningTotal} </li>`)
   this.runningTotal = this.runningTotal + this.turnTotal;
+
   if (playerOne.active === 1) {
+    roll = 0
+    playerOne.turnTotal = 0
+    this.rollCounter = 0
     playerOne.active = 0;
     playerTwo.active = 1;
-    $("#output").text(`It is Player 2's turn.`);
+    $("#output-player").text(`It is Player 2's turn.`);
   }
   else if (playerTwo.active === 1) {
+    roll = 09
+    playerTwo.turnTotal = 0
+    this.rollCounter = 0
     playerTwo.active = 0;
     playerOne.active = 1;
-    $("#output").text(`It is Player 1's turn.`);
+    $("#output-player").text(`It is Player 1's turn.`);
   }
 }
 
@@ -92,7 +101,7 @@ $(document).ready(function () {
     event.preventDefault();
     $("#btn-pvp, #btn-pve").show();
     $("#btn-start").hide();
-    $("#output").text("It is player One's turn");
+    $("#output-player").text("It is player One's turn");
     $("#btn-pvp").click(function (event) {
       event.preventDefault();
       $("#form1").hide();
@@ -125,22 +134,22 @@ $(document).ready(function () {
 function fillerfunction() {
   if (playerOne.active === 1) {
     playerOne.rollDice();
-    $("#output").text(`Player ${playerOne.player}'s rolls the dice.`);
+    $("#output-player").text(`Player ${playerOne.player}'s rolls the dice.`);
   }
   else if (playerTwo.active === 1) {
     playerTwo.rollDice();
-    $("#output").text(`Player ${playerTwo.player}'s rolls the dice.`);
+    $("#output-player").text(`Player ${playerTwo.player}'s rolls the dice.`);
   }
 };
 
 function hold() {
   if (playerOne.active === 1) {
     playerOne.hold();
-    $("#output").text(`Player ${playerOne.player} decides to hold.`);
+    $("#output-player").text(`Player ${playerOne.player} decides to hold.`);
   }
   else if (playerTwo.active === 1) {
     playerTwo.hold();
-    $("#output").text(`Player ${playerTwo.player} decides to hold.`);
+    $("#output-player").text(`Player ${playerTwo.player} decides to hold.`);
   }
 };
 
@@ -152,7 +161,9 @@ function hold() {
 
 
 //Click functions
-
+// setTimeout(function () {
+//  bs in here
+// }, 5500);
 
 //Code below is not related to program
 
