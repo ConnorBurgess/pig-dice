@@ -1,0 +1,17 @@
+.col-md-6 {
+  margin-top: 13vw;
+  margin-left: 22vw;
+  padding: 4vw;
+  border: 4px solid silver;
+  width: 8vw;
+  background-color: GainsBoro;
+}
+
+.jumbotron {
+  text-align: center;
+  font-size: 3vw;
+  color: purple;
+}
+body {
+  background-color: rgb(255, 0, 221)
+}

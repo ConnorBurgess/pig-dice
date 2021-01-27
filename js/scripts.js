@@ -62,6 +62,10 @@ Player.prototype.generateTotal = function () {
   console.log(computerPlayer.computerMove())
 
 //UI Logic
+$(document).ready(function() {
+  event.preventDefault()
+});
+
 //Click functions
 
 
