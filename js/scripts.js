@@ -33,7 +33,7 @@ Player.prototype.generateTotal = function () {
       $("#output, #output-player").empty();
       $("#output").append(`<em id="player-name-bright">You are the greatest Barbie Pig Dice Champion ever! <br></em>`);
       $("#output-player").append(`This is Win ${this.win}. It is still <strong id="player-name-bright">Player ${this.player}</strong>'s turn, <em id="bright-word">KEEP ROLLING</em>! `)
-      document.body.style.backgroundImage = "url('https://media.giphy.com/media/LcWorWf2e5vlS/giphy.gif')";
+      document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')";
       $("#btn-roll, #output, #btn-hold").hide();
       $("#btn-roll, #btn-hold, #output").fadeIn(3000);
     }
@@ -46,6 +46,7 @@ Player.prototype.generateTotal = function () {
     this.rollCounter = 0;
     $("#output, #output-player").empty();
     $("#output").append(`<strong id="bright-word"> lol ya lost to a bot ${computerPlayer.win} times!</strong>`);
+    document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
   }
   else if (this.player === 1 || this.player === 2) {
     $("#output").append(`<li><em>OOPS!</em> <strong id="bright-word"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and score was reset to <em class="roll-color">${this.turnTotal}.</em> Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
@@ -211,11 +212,11 @@ let computerPlayer = new Player(3);
 
 //UI Logic
 $(document).ready(function () {
+  document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
   $("#form2, #btn-pvp, #btn-reset, #btn-pve, #btn-easy, #btn-hard").hide();
   $("#page-top").slideDown(3000);
   playerOne.active = 1;
   $("#btn-start").click(function (event) {
-    document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')";
     event.preventDefault();
     $("#btn-pvp, #btn-pve").show();
     $("#btn-reset").fadeIn(10000);
@@ -224,6 +225,7 @@ $(document).ready(function () {
     $("#output-player").text("Choose a game!");
     //VS Player
     $("#btn-pvp").click(function (event) {
+      document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')";
       computerPlayer.computer = false;
       event.preventDefault();
       $("#output-player").empty();
@@ -242,8 +244,7 @@ $(document).ready(function () {
     });
     //VS computer
     $("#btn-pve").click(function (event) {
-      document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
-      event.preventDefault();
+      document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')"; event.preventDefault();
       computerPlayer.computer = true;
       $("#btn-pvp, #btn-pve").hide();
       $("#btn-easy, #btn-hard").show();
