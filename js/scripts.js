@@ -7,42 +7,48 @@ function Player(num) {
   this.player = num;
   this.active = 0
   this.win = 0;
+  this.difficulty = false;
+  this.computer = false;
+}
+Player.prototype.rollDice = function () {
+  for (i = 1; this.numDice >= i; i++) {
+    outputCount++;
+    this.generateTotal();
+  }
 }
 Player.prototype.generateTotal = function () {
   let roll = Math.floor(Math.random() * 6) + 1;
   this.turnTotal = roll ;
   this.runningTotal = this.runningTotal + roll;
   this.rollCounter++;
-  if (roll !== 1) {
+  if (roll !== 1 && this.player !== 3) {
     $("#output").append(`<li><strong id="player-name"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and current score is <em class="roll-color">${this.runningTotal}</em>. Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
     if(this.runningTotal >= "100") {
+      // If this.runningTotal === computerPlayer.runningTotal
+      // "You lost to a bot..."
+      //Set playerOne.active === 1
+      //Set computerPlayer.active === 0
+      //else
       this.win++
       playerOne.runningTotal = 0;
       playerTwo.runningTotal = 0;
+      computerPlayer.runningTotal = 0;
       this.turnTotal = 0;
-      $("#output").empty();
-      $("#output").append(`<em id="bright-word">You are the greatest Barbie Pig Dice Champion ever! YOU WIN!</em> Wins: ${this.win}`);
-      $("#output-player").empty();
-      $("#output-player").append(`This is win # ${this.win}. It is still <strong id="player-name-bright">Player ${this.player}</strong>'s turn, <em id="bright-word">KEEP ROLLING</em>! `)
-      document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')";
-      $("#btn-roll").hide();
-      $("#output").hide();
-      $("#btn-hold").hide();
-      $("#btn-roll").fadeIn(3000);
-      $("#btn-hold").fadeIn(3000);
-      $("#output").fadeIn(3000);
+      $("#output, #output-player").empty();
+      $("#output").append(`<em id="player-name-bright">You are the greatest Barbie Pig Dice Champion ever! <br></em>`);
+      $("#output-player").append(`This is Win ${this.win}. It is still <strong id="player-name-bright">Player ${this.player}</strong>'s turn, <em id="bright-word">KEEP ROLLING</em>! `)
+      document.body.style.backgroundImage = "url('https://media.giphy.com/media/LcWorWf2e5vlS/giphy.gif')";
+      $("#btn-roll, #output, #btn-hold").hide();
+      $("#btn-roll, #btn-hold, #output").fadeIn(3000);
     }
   }
-  else {
-    $("#output").append(`<li> Oops! <strong id="player-name"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and score was reset to <em class="roll-color">${this.turnTotal}.</em> Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
-    $("#btn-roll").hide();
-    $("#btn-hold").hide();
-    $("#output-animation").hide();
+  else if (this.player === 1) {
+    $("#output").append(`<li><em>OOPS!</em> <strong id="bright-word"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and score was reset to <em class="roll-color">${this.turnTotal}.</em> Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
+    $("#btn-roll, #btn-hold, #output-animation").hide();
     $("#output-animation").fadeIn(1500);
     $("#btn-roll").fadeIn(3000);
-    $("#btn-roll").fadeIn(2000);
-    $("#btn-hold").fadeIn(2000);
-    if (this.player === 1) {
+    $("#btn-roll, #btn-hold").fadeIn(2000);
+    if (this.player === 1 && computerPlayer.computer === false) {
       $("#output-player").empty();
       $("#output-player").append(`It is <strong id="player-name-bright">Player 2</strong>'s turn. Wins: ${this.win}   `);
       $("#output-player").append(`<img src="https://www.qedcat.com/misc/pigs1.jpg" width="65px">`)
@@ -56,29 +62,37 @@ Player.prototype.generateTotal = function () {
       $("#output-player").append(`It is <strong id="player-name-bright">Player 1</strong>'s turn. Wins: ${this.win}   `);
       $("#output-player").append(`<img src="https://www.qedcat.com/misc/pigs1.jpg" width="65px">`)
       playerTwo.turnTotal = 0
-      this.active === 0;
+      this.active = 0;
       this.rollCounter = 0;
       playerOne.active = 1;
     }
+    else if (this.player === 1 && computerPlayer.computer === true) {
+      this.active = 0;
+      computerPlayer.active = 1;
+      computerPlayer.computerMove();
+    }
+  }
+    else if (this.player === 3) {
+    $("#output").append(`<li><strong id="player-name"> Bot</strong> rolled a <em class="roll-color">${roll}</em> and current score is <em class="roll-color">${this.runningTotal}</em>. Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
   }
 }
-
-Player.prototype.rollDice = function () {
-  for (i = 1; this.numDice >= i; i++) {
-    outputCount++;
-    this.generateTotal();
-  }
-}
-
 Player.prototype.hold = function () {
   this.runningTotal = this.runningTotal + this.turnTotal;
   $("#output").empty();
   $("#output").append(`<li id="turn-over-color"> Turn is over! Rolled a total of ${this.rollCounter} times this turn. Current score is ${this.runningTotal} </li>`)
-  $("#btn-roll").hide();
-  $("#btn-hold").hide();
+  $("#btn-roll, #btn-hold").hide();
   $("#btn-roll").fadeIn(2000);
   $("#btn-hold").fadeIn(2000);
-  if (playerOne.active === 1) {
+  if (playerOne.active === 1 && computerPlayer.computer === true) {
+    roll = 0;
+    this.turnTotal = 0;
+    this.rollCounter = 0;
+    this.active = 0;
+    computerPlayer.active = 1;
+    computerPlayer.computerMove();
+    $("#output-player").text(`It is <strong id="player-name-bright">the Bot's</strong>'s turn.`);
+  }
+  else if (playerOne.active === 1 && computerPlayer.computer === false) {
     roll = 0;
     this.turnTotal = 0;
     this.rollCounter = 0;
@@ -96,13 +110,23 @@ Player.prototype.hold = function () {
   }
 }
 
-// Player.prototype.computerMove = function () {
-//   if (this.difficulty === false) {
-//     this.generateTotal();
-//     this.generateTotal();
-//     this.rollCounter = 0;
-//     this.hold();
-//   }
+Player.prototype.computerMove = function () {
+  if (this.difficulty === false) {
+    $("#btn-roll, #btn-hold").hide();
+    this.rollDice()
+    if (this.turnTotal >= 2) {
+      this.rollDice()
+      $("#output-player").empty();
+      $("#output-player").append(`It is <strong id="player-name-bright">Player 1</strong>'s turn.`);
+      this.turnTotal = 0;
+      this.rollCounter = 0;
+      this.active = 0;
+      playerOne.active = 1;
+      computerPlayer.active = 0;
+      $("#btn-roll, #btn-hold").show();
+    }
+  }
+}
 //   else {
 //     $("#output").text("Hard AI here")
 //     if (playerOne.runningTotal > computerPlayer.runningTotal) {
@@ -110,6 +134,7 @@ Player.prototype.hold = function () {
 //     }
 //   }
 // }
+// end of computer's move, show btn's, clear turn total, set Player1 active, set computer inactive
 
 let outputCount = 0;
 function gameStart() {
@@ -128,46 +153,49 @@ function gameStart() {
     }
     playerTwo.rollDice();
   }
+  else if (computerPlayer.active === 1) {
+    if (outputCount >= 4) {
+      $("#output").empty();
+      outputCount = 0;
+    }
+  }
 };
 
 function hold() {
   if (playerOne.active === 1) {
     playerOne.hold();
-    $("#output-player").text(`<strong id="player-name-bright">Player ${playerOne.player}</strong> decides to hold.`);
-
+    $("#output-player").empty();
+    $("#output-player").append(`<strong id="player-name-bright">Player ${playerOne.player}</strong> decides to hold.`);
   }
   else if (playerTwo.active === 1) {
     playerTwo.hold();
-    $("#output-player").text(`<strong id="player-name-bright">Player ${playerTwo.player}</strong> decides to hold.`);
-
+    $("#output-player").empty();
+    $("#output-player").append(`<strong id="player-name-bright">Player ${playerTwo.player}</strong> decides to hold.`);
   }
 };
 
 //Initialize players
 let playerOne = new Player(1);
 let playerTwo = new Player(2);
-//let computerPlayer = new Player();
+let computerPlayer = new Player(3);
 
 
 //UI Logic
 $(document).ready(function () {
-  $("#form2").hide();
-  $("#btn-pvp").hide();
-  $("#btn-reset").hide();
-  $("#btn-pve").hide();
+  $("#form2, #btn-pvp, #btn-reset, #btn-pve").hide();
   $("#page-top").slideDown(3000);
   playerOne.active = 1;
   $("#btn-start").click(function (event) {
     document.body.style.backgroundImage = "url('https://media.giphy.com/media/KCO3yCqBggRjO/giphy.gif')";
- 
     event.preventDefault();
-    $("#btn-pvp, #btn-pve, #btn-reset").show();
-    
-    $("#btn-start").hide();
-    $(".col-md-8").hide();
+    $("#btn-pvp, #btn-pve").show();
+    $("#btn-reset").fadeIn(10000);
+    $("#btn-start, .col-md-8").hide();
     $(".col-md-8").fadeIn(1500);
     $("#output-player").text("Choose a game!");
+    //VS Player
     $("#btn-pvp").click(function (event) {
+      computerPlayer.computer = false;
       event.preventDefault();
       $("#output-player").empty();
       $("#output-player").append(`Playing <em id="bright-word">PVP</em>! It is <strong id="player-name-bright">Player 1</strong>'s turn.`);
@@ -183,12 +211,16 @@ $(document).ready(function () {
         hold()
       });
     });
+    //VS computer
     $("#btn-pve").click(function (event) {
+      playerOne.active = 0;
+      computerPlayer.computer = true;
+      computerPlayer.active = 1;
       event.preventDefault();
-      $("#form1").hide();
+      $("#form1, #btn-roll, #btn-hold").hide();
       $("#form2").show();
+      computerPlayer.computerMove();
       $("#btn-roll").click(function(event) {
- //       document.body.style.backgroundImage = "none";
         document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
         event.preventDefault();
         gameStart();
@@ -199,7 +231,4 @@ $(document).ready(function () {
       });
     });
   });
-
-
-
 });
