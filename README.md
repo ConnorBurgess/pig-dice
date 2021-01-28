@@ -1,6 +1,6 @@
 # Pig Dice
 #### Co-Created By: Connor Burgess 
-#### Co-Created By: Zack Rutledge* 
+#### Co-Created By: Zack Rutledge
 
 * * *
 
