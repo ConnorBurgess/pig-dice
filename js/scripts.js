@@ -8,7 +8,6 @@ function Player(num) {
   this.active = 0
   this.win = 0;
 }
-
 Player.prototype.generateTotal = function () {
   let roll = Math.floor(Math.random() * 6) + 1;
   this.turnTotal = roll ;
@@ -24,6 +23,7 @@ Player.prototype.generateTotal = function () {
   }
   else {
     $("#output").append(`<li> Oops! Player ${this.player} rolled a ${roll} and score was reset to ${this.turnTotal}. Rolled a total of ${this.rollCounter} times.</li>`);
+    outputCount++;
     if (this.player === 1) {
       $("#output-player").text(`It is Player 2's turn. Wins: ${this.win}`);
       $("#output-player").append(`<img src="https://www.qedcat.com/misc/pigs1.jpg" width="50px">`)
@@ -45,6 +45,7 @@ Player.prototype.generateTotal = function () {
 
 Player.prototype.rollDice = function () {
   for (i = 1; this.numDice >= i; i++) {
+    outputCount++;
     this.generateTotal();
   }
 }
@@ -85,14 +86,43 @@ Player.prototype.hold = function () {
 //   }
 // }
 
+let outputCount = 0;
+function gameStart() {
+  if (playerOne.active === 1) {
+    if (outputCount >= 7) {
+      $("#output").empty();
+      outputCount = 0;
+    }
+    playerOne.rollDice();
+    outputCount++;
+  }
+  else if (playerTwo.active === 1) {
+    if (outputCount >= 7) {
+      $("#output").empty();
+      outputCount = 0;
+    }
+    playerTwo.rollDice();
+  }
+};
+
+function hold() {
+  if (playerOne.active === 1) {
+    playerOne.hold();
+    $("#output-player").text(`Player ${playerOne.player} decides to hold.`);
+    $("#output").empty();
+  }
+  else if (playerTwo.active === 1) {
+    playerTwo.hold();
+    $("#output-player").text(`Player ${playerTwo.player} decides to hold.`);
+    $("#output").empty();
+  }
+};
+
 //Initialize players
 let playerOne = new Player(1);
 let playerTwo = new Player(2);
 //let computerPlayer = new Player();
 
-// $("#output").text(playerOne.rollDice());
-// $("#output").text(computerPlayer.computerMove())
-//$("#output").text(computerPlayer.computerMove())
 
 //UI Logic
 $(document).ready(function () {
@@ -111,7 +141,7 @@ $(document).ready(function () {
       $("#form2").show();
       $("#btn-roll").click(function(event) {
         event.preventDefault();
-        fillerfunction();
+        gameStart();
       });
       $("#btn-hold").click(function(event) {
         event.preventDefault();
@@ -124,7 +154,7 @@ $(document).ready(function () {
       $("#form2").show();
       $("#btn-roll").click(function(event) {
         event.preventDefault();
-        fillerfunction();
+        gameStart();
       });
       $("#btn-hold").click(function(event) {
         event.preventDefault();
@@ -133,83 +163,3 @@ $(document).ready(function () {
     });
   });
 });
-
-function fillerfunction() {
-  if (playerOne.active === 1) {
-    playerOne.rollDice();
- //   $("#output-player").text(`Player ${playerOne.player}'s rolls the dice.`);
-  }
-  else if (playerTwo.active === 1) {
-    playerTwo.rollDice();
-  //  $("#output-player").text(`Player ${playerTwo.player}'s rolls the dice.`);
-  }
-};
-
-function hold() {
-  if (playerOne.active === 1) {
-    playerOne.hold();
-    $("#output-player").text(`Player ${playerOne.player} decides to hold.`);
-  }
-  else if (playerTwo.active === 1) {
-    playerTwo.hold();
-    $("#output-player").text(`Player ${playerTwo.player} decides to hold.`);
-  }
-};
-
-
-
-
-//Click functions
-// setTimeout(function () {
-//  bs in here
-// }, 5500);
-
-//Code below is not related to program
-
-// // Business Logic for AddressBook ---------
-// function AddressBook() {
-//   this.contacts = {};
-//   this.currentId = 0;
-// }
-
-// AddressBook.prototype.addContact = function(contact) {
-//   contact.id = this.assignId();
-//   this.contacts[contact.id] = contact;
-// }
-
-// AddressBook.prototype.assignId = function() {
-//   this.currentId += 1;
-//   return this.currentId;
-// }
-
-// AddressBook.prototype.findContact = function(id) {
-// if (this.contacts[id] != undefined) {
-//   return this.contacts[id];
-// }
-// return false;
-// }
-
-// // Business Logic for Contacts ---------
-// function Contact(firstName, lastName, phoneNumber) {
-// this.firstName = firstName;
-// this.lastName = lastName;
-// this.phoneNumber = phoneNumber;
-// }
-
-//aeiou /gi
-//input: Epicodus Output: 3
-//Input: Hmm Output: 0
-//Bob Loblaw Output: 3
-
-
-// let vowelsCounted = 0;
-
-// function checkVowel(string) {
-// for ( i = 0; i <= string.length; i++) {
-// let vowelsTest = (/[aeiou]/gi.test(vowelsCounted));
-// return (vowelsTest ? vowelsCounted++ && $("#output").text(vowelsCounted) : $("#output").text(vowelsCounted));
-// }
-// }
-
-// let stringTest = "heyhey";
-// checkVowel(stringTest);
