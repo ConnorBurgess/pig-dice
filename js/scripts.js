@@ -28,6 +28,7 @@ Player.prototype.generateTotal = function () {
       playerOne.runningTotal = 0;
       playerTwo.runningTotal = 0;
       computerPlayer.runningTotal = 0;
+      this.rollCounter = 0;
       this.turnTotal = 0;
       $("#output, #output-player").empty();
       $("#output").append(`<em id="player-name-bright">You are the greatest Barbie Pig Dice Champion ever! <br></em>`);
@@ -42,6 +43,7 @@ Player.prototype.generateTotal = function () {
     playerOne.runningTotal = 0;
     computerPlayer.runningTotal = 0;
     this.turnTotal = 0;
+    this.rollCounter = 0;
     $("#output, #output-player").empty();
     $("#output").append(`<strong id="bright-word"> lol ya lost to a bot ${computerPlayer.win} times!</strong>`);
   }
@@ -266,6 +268,8 @@ $(document).ready(function () {
       $("#btn-hard").click(function (event) {
         document.body.style.backgroundImage = "url('https://i.etsystatic.com/17882580/d/il/26eba0/2789160017/il_340x270.2789160017_mjgg.jpg?version=0')";
         event.preventDefault();
+        $("#output-player").empty();
+        $("#output-player").append(`It is <strong id="player-name-bright">Player 1</strong>'s turn.`);
         $("#btn-easy, #btn-hard").hide();
         playerOne.active = 0;
         computerPlayer.difficulty = true;
