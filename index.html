@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,18 +12,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <title>Pig Dice</title>
 </head>
+
 <body>
   <div class="jumbotron" id="page-top"> Barbie's Pig Dice </div>
   <div class="container">
-    <button id="btn-reset" onClick="window.location.reload();" class="btn btn-warning">Reset Game</button>
+    <button id="btn-reset" onClick="window.location.reload();" class="btn btn-warning">RESET</button>
     <div class="row">
       <div class="col-md-6">
-        <div id="output-player"> It's your turn, Player 1 </div>
+        <div id="output-player"> Let's get this party going! </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-8">
-        <div id="output"><ul></ul>
+        <div id="output">
+          <ul></ul>
           <div id="anchor"></div>
         </div>
       </div>
@@ -30,21 +33,23 @@
     <form id="form1">
       <div class="row">
         <div class="col-md-6">
-          <button id="btn-start" type="submit" class="btn btn-success">Start Game</button>
-          <button id="btn-pvp" type="submit" class="btn btn-danger">Player vs Player</button>
-          <button id="btn-pve" type="submit" class="btn btn-primary">Player vs Computer</button>
+          <button id="btn-start" type="submit" class="btn btn-success">START</button>
+          <button id="btn-pvp" type="submit" class="btn btn-primary">Player vs Player</button>
+          <button id="btn-pve" type="submit" class="btn btn-danger">Player vs Computer</button>
         </div>
       </div>
     </form>
-  <form id="form2">
-    <div class="row">
-      <div class="col-md-6">
-        <button id="btn-roll" type="submit" class="btn btn-success">Roll Dice</button>
-        <button id="btn-hold" type="submit" class="btn btn-danger">Hold</button>
+    <form id="form2">
+      <div class="row">
+        <div class="col-md-6">
+          <button id="btn-roll" type="submit" class="btn btn-success">Roll Dice</button>
+          <button id="btn-hold" type="submit" class="btn btn-danger">Hold</button>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+    <div id="output-animation"><p id="output-animation-text"> Let's play some Pig Dice!!</p> </div>
   </div>
-</div>
+
 </body>
+
 </html>

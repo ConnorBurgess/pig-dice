@@ -1,4 +1,4 @@
-.col-md-6, .col-md-4, .col-md-8 {
+.col-md-6, .col-md-8 {
   margin-top: 1vw;
   margin-left: 18vw;
   padding: 4vw;
@@ -6,14 +6,17 @@
   width: 6vw;
   background-color: GainsBoro;
   overflow: auto;
-}
+  border-radius: 2vw;
 
+}
 .col-md-6 {
-  background-color: pink;
+  background-color: rgb(221, 122, 144, 0.926);
+  left: 5vw;
+  text-align:center;
 }
-
 .col-md-8 {
   background-color: rgba(238, 98, 122, 0.726);
+  border: 10px solid purple;
 }
 #form1, #form2 {
   text-align: center;
@@ -21,9 +24,14 @@
 .jumbotron {
   text-align: center;
   font-size: 3vw;
-  color: purple;
+  color: red;
   font-family: 'Pacifico', cursive;
   background-color:pink;
+  text-shadow: 2px 2px brown;
+  display:none;
+  border-bottom: 15px solid purple;
+  border-top: 15px solid purple;
+  height: 9.5vw;
 }
 
 #output {
@@ -48,28 +56,118 @@ overflow-anchor: none;
 #output-player {
   width: 20vw;
   display: inline;
-  font-size: 25px;
+  font-size: 27px;
   font-weight: bolder;
   font-family: 'Pacifico', cursive;
   padding: 4px;
   border: 4px;
   white-space: normal;
+  color: purple;
 }
 
+#output-player img {
+  border-radius: 10vw;
+}
+#output-animation {
+  display: flex;
+  border: 10px solid purple;
+  position: absolute;
+  background-color: pink;
+  height: 20vw;
+  top: 25vw;
+  left: 5vw;
+  width: 30vw;
+  align-items: top;
+  padding: auto;
+  justify-content: center;
+  font-family: 'Pacifico', cursive;
+  font-size: 2vw;
+  color: red;
+  border-radius: 10px;
+  background-image: url("../img/barbie.gif"); 
+  background-size: 100%;
+}
 body {
   background-color: rgb(255, 0, 221);
   height: 80%;
 }
 
-/* 
-display: flex;
-font-size: 32px;
-color: red;
-width: 33vw;
-top: 17vw;
-right: 33vw;
-position:absolute;
-height: 15vw;
-white-space: normal;
-overflow: scroll;
-font-family: 'Monoton', cursive; */
+#player-name {
+  color:rgba(221, 213, 213, 0.705);
+  font-size:25px;
+  text-shadow: 2px 2px brown;
+}
+
+#player-name-bright {
+  color:rgba(70, 165, 194, 0.719);
+  font-size: 25px;
+  text-shadow: 2px 2px brown;
+}
+
+#bright-word {
+  color:red;
+  font-size: 25px;
+  text-shadow: 2px 2px brown;
+}
+
+#turn-over-color {
+  color: pink;
+  font-size:18px;
+  text-shadow: 2px 2px brown;
+}
+
+.roll-color {
+  color: pink;
+  font-size:25px;
+  text-shadow: 2px 2px brown;
+}
+
+.btn {
+	box-shadow:inset 0px 1px 7px 0px #efdcfb;
+	background:linear-gradient(to bottom, #dfbdfa 5%, #bc80ea 100%);
+	background-color:#dfbdfa;
+	border-radius:7px;
+	border:4px solid #c584f3;
+	display:inline-block;
+	cursor:pointer;
+	color:purple;
+	font-family:Georgia;
+	font-size:15px;
+	font-weight:bold;
+	padding:19px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #9752cc;
+}
+
+.btn:hover {
+	background:linear-gradient(to bottom, #bc80ea 5%, #dfbdfa 100%);
+	background-color:#bc80ea;
+}
+
+.btn:active {
+	position:relative;
+	top:1px;
+}
+
+/* Spinning Start Animation */
+#btn-start, #btn-reset {
+  border-radius:40vw;
+  color:black;
+  animation-name: spin;
+  animation-duration: 100000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+  /* transform: rotate(3deg); */
+   /* transform: rotate(0.3rad);/ */
+   /* transform: rotate(3grad); */ 
+   /* transform: rotate(.03turn);  */
+  }
+
+  @keyframes spin {
+      from {
+          transform:rotate(-40deg);
+      }
+      to {
+          transform:rotate(360deg);
+      }
+}
