@@ -18,17 +18,12 @@ Player.prototype.rollDice = function () {
 }
 Player.prototype.generateTotal = function () {
   let roll = Math.floor(Math.random() * 6) + 1;
-  this.turnTotal = roll ;
+  this.turnTotal = roll;
   this.runningTotal = this.runningTotal + roll;
   this.rollCounter++;
   if (roll !== 1 && this.player !== 3) {
     $("#output").append(`<li><strong id="player-name"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and current score is <em class="roll-color">${this.runningTotal}</em>. Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
-    if(this.runningTotal >= "100") {
-      // If this.runningTotal === computerPlayer.runningTotal
-      // "You lost to a bot..."
-      //Set playerOne.active === 1
-      //Set computerPlayer.active === 0
-      //else
+    if (this.runningTotal >= "100") {
       this.win++
       playerOne.runningTotal = 0;
       playerTwo.runningTotal = 0;
@@ -42,7 +37,15 @@ Player.prototype.generateTotal = function () {
       $("#btn-roll, #btn-hold, #output").fadeIn(3000);
     }
   }
-  else if (this.player === 1) {
+  else if (this.runningTotal >= "100" && computerPlayer.active === 1) {
+    this.win++
+    playerOne.runningTotal = 0;
+    computerPlayer.runningTotal = 0;
+    this.turnTotal = 0;
+    $("#output, #output-player").empty();
+    $("#output").append(`<strong id="bright-word"> lol ya lost to a bot ${computerPlayer.win} times!</strong>`);
+  }
+  else if (this.player === 1 || this.player === 2) {
     $("#output").append(`<li><em>OOPS!</em> <strong id="bright-word"> Player ${this.player}</strong> rolled a <em class="roll-color">${roll}</em> and score was reset to <em class="roll-color">${this.turnTotal}.</em> Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
     $("#btn-roll, #btn-hold, #output-animation").hide();
     $("#output-animation").fadeIn(1500);
@@ -72,7 +75,7 @@ Player.prototype.generateTotal = function () {
       computerPlayer.computerMove();
     }
   }
-    else if (this.player === 3) {
+  else if (this.player === 3) {
     $("#output").append(`<li><strong id="player-name"> Bot</strong> rolled a <em class="roll-color">${roll}</em> and current score is <em class="roll-color">${this.runningTotal}</em>. Rolled a total of <em class="roll-color">${this.rollCounter}</em> times.</li>`);
   }
 }
@@ -109,7 +112,7 @@ Player.prototype.hold = function () {
     $("#output-player").text(`It is <strong id="player-name-bright">Player 1</strong>'s turn.`);
   }
 }
-
+// Computer AI Logic
 Player.prototype.computerMove = function () {
   if (this.difficulty === false) {
     $("#btn-roll, #btn-hold").hide();
@@ -124,17 +127,44 @@ Player.prototype.computerMove = function () {
       playerOne.active = 1;
       computerPlayer.active = 0;
       $("#btn-roll, #btn-hold").show();
+    } else {
+      this.turnTotal = 0;
+      this.rollCounter = 0;
+      this.active = 0;
+      playerOne.active = 1;
+      computerPlayer.active = 0;
+      $("#btn-roll, #btn-hold").show();
     }
   }
+  // HARD AI LOGIC
+  else if (this.difficulty === true) {
+    $("#btn-roll, #btn-hold").hide();
+    console.log(this.rollCounter);
+
+    for (i = 0; i < 5; i++) {
+      this.rollDice();
+      if (playerOne.runningTotal <= this.runningTotal + this.turnTotal) {
+        break;
+      }
+      else if (this.turnTotal >= 26) {
+        break;
+      }
+      else {
+        this.rollDice();
+        this.rollDice();
+      }
+    }
+    this.turnTotal = 0;
+    this.rollCounter = 0;
+    this.active = 0;
+    playerOne.active = 1;
+    computerPlayer.active = 0;
+    console.log("test");
+    $("#btn-roll, #btn-hold").show();
+  }
 }
-//   else {
-//     $("#output").text("Hard AI here")
-//     if (playerOne.runningTotal > computerPlayer.runningTotal) {
-//       this.generateTotal();
-//     }
-//   }
-// }
-// end of computer's move, show btn's, clear turn total, set Player1 active, set computer inactive
+//Check player 1 total, roll either 5 times, until 26 points in turnTotal, or until < Player Score
+
 
 let outputCount = 0;
 function gameStart() {
@@ -179,10 +209,9 @@ let playerOne = new Player(1);
 let playerTwo = new Player(2);
 let computerPlayer = new Player(3);
 
-
 //UI Logic
 $(document).ready(function () {
-  $("#form2, #btn-pvp, #btn-reset, #btn-pve").hide();
+  $("#form2, #btn-pvp, #btn-reset, #btn-pve, #btn-easy, #btn-hard").hide();
   $("#page-top").slideDown(3000);
   playerOne.active = 1;
   $("#btn-start").click(function (event) {
@@ -201,33 +230,59 @@ $(document).ready(function () {
       $("#output-player").append(`Playing <em id="bright-word">PVP</em>! It is <strong id="player-name-bright">Player 1</strong>'s turn.`);
       $("#form1").hide();
       $("#form2").show();
-      $("#btn-roll").click(function(event) {
+      $("#btn-roll").click(function (event) {
         document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
         event.preventDefault();
         gameStart();
       });
-      $("#btn-hold").click(function(event) {
+      $("#btn-hold").click(function (event) {
         event.preventDefault();
         hold()
       });
     });
     //VS computer
     $("#btn-pve").click(function (event) {
-      playerOne.active = 0;
-      computerPlayer.computer = true;
-      computerPlayer.active = 1;
+      document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
       event.preventDefault();
-      $("#form1, #btn-roll, #btn-hold").hide();
-      $("#form2").show();
-      computerPlayer.computerMove();
-      $("#btn-roll").click(function(event) {
+      computerPlayer.computer = true;
+      $("#btn-pvp, #btn-pve").hide();
+      $("#btn-easy, #btn-hard").show();
+      $("#btn-easy").click(function (event) {
+        event.preventDefault();
+        $("#btn-easy, #btn-hard").hide();
         document.body.style.backgroundImage = "url('https://thumbs.dreamstime.com/z/cute-seamless-unicorn-pattern-textile-graphic-t-shirt-print-hand-drawn-unicorns-background-cute-seamless-unicorn-pattern-textile-138422126.jpg')";
-        event.preventDefault();
-        gameStart();
+        playerOne.active = 0;
+        computerPlayer.active = 1;
+        $("#form1, #btn-roll, #btn-hold").hide();
+        $("#form2").show();
+        computerPlayer.computerMove();
+        $("#btn-roll").click(function (event) {
+          event.preventDefault();
+          gameStart();
+        });
+        $("#btn-hold").click(function (event) {
+          event.preventDefault();
+          hold();
+        });
       });
-      $("#btn-hold").click(function(event) {
+      $("#btn-hard").click(function (event) {
+        document.body.style.backgroundImage = "url('https://i.etsystatic.com/17882580/d/il/26eba0/2789160017/il_340x270.2789160017_mjgg.jpg?version=0')";
         event.preventDefault();
-        hold();
+        $("#btn-easy, #btn-hard").hide();
+        playerOne.active = 0;
+        computerPlayer.difficulty = true;
+        computerPlayer.active = 1;
+        $("#form1, #btn-roll, #btn-hold").hide();
+        $("#form2").show();
+        computerPlayer.computerMove();
+        $("#btn-roll").click(function (event) {
+          event.preventDefault();
+          gameStart();
+        });
+        $("#btn-hold").click(function (event) {
+          event.preventDefault();
+          hold();
+        });
       });
     });
   });
