@@ -1,6 +1,6 @@
 # Pig Dice
-#### *Co-Created By: Connor Burgess * 
-#### *Co-Created By: Zack Rutledge* 
+#### Co-Created By: Connor Burgess 
+#### Co-Created By: Zack Rutledge* 
 
 * * *
 
@@ -19,9 +19,9 @@ Project utilizes constructors and prototypes to create a "Pig Dice" game.
 * * *
 
 ## Setup instructions:  
-* Go to [Github Pages](Link) to see webpage
+* Go to [Github Pages](https://connorburgess.github.io/pig-dice/) to see webpage
 #### Alt
-* Clone Repo (Link: )
+* Clone Repo (Link:https://github.com/ConnorBurgess/pig-dice.git )
 * Open index.html in browser
 
 * * *
@@ -32,8 +32,8 @@ Project utilizes constructors and prototypes to create a "Pig Dice" game.
 * * *
 
 ## Addition comments:
-* Created on x/x/21  
-* Currently in development and unfinished (*as of x/x/21*)
+* Created on 1/27/21  
+* Currently in development and unfinished (*as of 1/27/21*)
 
 * * *
 

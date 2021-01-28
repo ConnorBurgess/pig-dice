@@ -163,8 +163,6 @@ Player.prototype.computerMove = function () {
     $("#btn-roll, #btn-hold").show();
   }
 }
-//Check player 1 total, roll either 5 times, until 26 points in turnTotal, or until < Player Score
-
 
 let outputCount = 0;
 function gameStart() {
